@@ -23,27 +23,20 @@ const Settings = () => (
   </SafeArea>
 );
 
-// const createScreenOptions = ({ route }) => {
-//   const iconName = TAB_ICON[route.name];
-//   return {
-//     tabBarIcon: ({ size, color }) => (
-//       <Ionicons name={iconName} size={size} color={color} />
-//     ),
-//   };
-// };
+const createScreenOptions = ({ route }) => {
+  const iconName = TAB_ICON[route.name];
+  return {
+    tabBarIcon: ({ size, color }) => (
+      <Ionicons name={iconName} size={size} color={color} />
+    ),
+    headerShown: false,
+  };
+};
 
 export const AppNavigator = () => (
   <NavigationContainer>
     <Tab.Navigator
-      screenOptions={({ route }) => {
-        const iconName = TAB_ICON[route.name];
-        return {
-          tabBarIcon: ({ size, color }) => (
-            <Ionicons name={iconName} size={size} color={color} />
-          ),
-          headerShown: false,
-        };
-      }}
+      screenOptions={createScreenOptions}
       tabBarOptions={{
         activeTintColor: "tomato",
         inactiveTintColor: "gray",
