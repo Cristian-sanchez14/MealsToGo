@@ -1,10 +1,22 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export const RestaurantInfo = () => {
+export const RestaurantInfo = ({ restaurant = {}}) => {
+  const {
+    name = "Some Restaurant",
+    icon,
+    photo = [
+      "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
+    ],
+    address = "100 some random street",
+    isOpenNow = true,
+    rating = 4,
+    isClosedTemporarily,
+  } = restaurant;
+
   return (
     <View>
-      <Text>Restaurant Info</Text>
+      <Text>{name}</Text>
     </View>
   )
 }
