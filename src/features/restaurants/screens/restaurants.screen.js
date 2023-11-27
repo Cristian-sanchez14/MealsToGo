@@ -21,7 +21,7 @@ const RestaurantList = styled(FlatList).attrs({
 export const RestaurantsScreen = () => (
   <SafeArea>
     <SearchContainer>
-      <Searchbar placeholder="Search" />
+      <Searchbar placeholder="Search Restaurants" />
     </SearchContainer>
     <RestaurantList
       data={[
