@@ -1,26 +1,27 @@
 import React, { createContext, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const FavouritesContext = createContext();
 
 export const FavouritesContextProvider = ({ children }) => {
   const [favourites, setFavourites] = useState([]);
 
-  const add = (item) => {
-    setFavourites([...favourites, item]);
+  const add = (restaurant) => {
+    setFavourites([...favourites, restaurant]);
   };
 
-  const remove = (item) => {
-    const newFavourites = favourites.filter((x) => x.placeId !== item.placeId);
+  const remove = (restaurant) => {
+    const newFavourites = favourites.filter(
+      (x) => x.placeId !== restaurant.placeId
+    );
+
     setFavourites(newFavourites);
   };
-
   return (
     <FavouritesContext.Provider
       value={{
-        addToFavourites: (item) => add(item),
-        removeFromFavourites: (item) => remove(item),
         favourites,
+        addToFavourites: add,
+        removeFromFavourites: remove,
       }}
     >
       {children}

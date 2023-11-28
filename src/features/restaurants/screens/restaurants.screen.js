@@ -30,7 +30,7 @@ const LoadingContainer = styled.View`
 
 export const RestaurantsScreen = ({ navigation }) => {
   const { isLoading, restaurants } = useContext(RestaurantsContext);
-  const { favourites, addToFavourites } = useContext(FavouritesContext); // favourites service
+
   return (
     <SafeArea>
       {isLoading && (
@@ -44,12 +44,11 @@ export const RestaurantsScreen = ({ navigation }) => {
         renderItem={({ item }) => {
           return (
             <TouchableOpacity 
-              onPress={() => {
-                addToFavourites(item);
+              onPress={() => 
                 navigation.navigate("RestaurantDetail", {
                   restaurant: item,
-                });
-              }}
+                })
+              }
             >
               <Spacer position="bottom" size="large">
               <RestaurantInfoCard restaurant={item} />
