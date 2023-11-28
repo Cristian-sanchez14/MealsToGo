@@ -7,6 +7,7 @@ import { SafeArea } from "../../../components/utility/safe-area.component";
 import { Spacer } from "../../../components/spacer/spacer.component";
 
 import { RestaurantsContext } from "../../../services/restaurants/restaurants.context";
+import { FavouritesContext } from "../../../services/favourites/favourites.context";
 
 import { Search } from "../components/search.component";
 import { RestaurantInfoCard } from "../components/restaurant-info-card.component";
@@ -29,6 +30,7 @@ const LoadingContainer = styled.View`
 
 export const RestaurantsScreen = ({ navigation }) => {
   const { isLoading, restaurants } = useContext(RestaurantsContext);
+  const { favourites, addToFavourites } = useContext(FavouritesContext); // favourites service
   return (
     <SafeArea>
       {isLoading && (
@@ -42,11 +44,12 @@ export const RestaurantsScreen = ({ navigation }) => {
         renderItem={({ item }) => {
           return (
             <TouchableOpacity 
-              onPress={() =>
+              onPress={() => {
+                addToFavourites(item);
                 navigation.navigate("RestaurantDetail", {
                   restaurant: item,
-                })
-              }
+                });
+              }}
             >
               <Spacer position="bottom" size="large">
               <RestaurantInfoCard restaurant={item} />
