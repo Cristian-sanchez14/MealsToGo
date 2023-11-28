@@ -23,9 +23,9 @@ const Loading = styled(ActivityIndicator)`
   margin-left: -50px;
 `;
 const LoadingContainer = styled.View`
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  align-items: center;
+  top: 300px;
+  left: 30px;
 `;
 
 export const RestaurantsScreen = ({ navigation }) => {
@@ -40,13 +40,13 @@ export const RestaurantsScreen = ({ navigation }) => {
         onFavouritesToggle={() => setIsToggled(!isToggled)}
       />
       <ScrollView>
+        {isToggled && (
+          <FavouritesBar favourites={favourites} onNavigate={navigation.navigate} />
+        )}
         {isLoading && (
           <LoadingContainer>
             <Loading size={50} animating={true} />
           </LoadingContainer>
-        )}
-        {isToggled && (
-          <FavouritesBar favourites={favourites} onNavigate={navigation.navigate} />
         )}
         <RestaurantList
           data={restaurants}
