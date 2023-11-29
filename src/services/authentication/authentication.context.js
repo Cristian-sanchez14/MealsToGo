@@ -25,6 +25,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     }
   });
 
+  // lOGIN 
   const onLogin = (email, password) => {
     setIsLoading(true);
     loginRequest(auth, email, password)
@@ -38,6 +39,7 @@ export const AuthenticationContextProvider = ({ children }) => {
       });
   };
 
+  // REGISTER 
   const onRegister = (email, password, repeatedPassword) => {
     setIsLoading(true);
     if (password !== repeatedPassword) {
