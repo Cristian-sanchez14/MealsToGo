@@ -1,6 +1,9 @@
-const functions = require("firebase-functions");
-const { geocodeRequest } = require("./geocode");
+const { locations: locationsMock } = require("./geocode.mock");
+const url = require("url");
 
-exports.geocode = functions.https.onRequest((request, response) => {
-  geocodeRequest(request, response);
-});
+module.exports.geocodeRequest = (request, response) => {
+  const { city } = url.parse(request.url, true).query;
+  const locationMock = locationsMock[city.toLowerCase()];
+
+  response.json(locationMock);
+};
