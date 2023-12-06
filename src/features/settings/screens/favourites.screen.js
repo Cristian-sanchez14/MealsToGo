@@ -1,54 +1,48 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useContext } from "react";
+import styled from "styled-components/native";
+import { TouchableOpacity } from "react-native";
 
-import { RestaurantsNavigator } from "./restaurants.navigator";
-import { SettingsNavigator } from "./settings.navigator";
-import { MapScreen } from "../../features/map/screens/map.screen";
-import { CheckoutNavigator } from "./checkout.navigator";
-import { CartContextProvider } from "../../services/cart/cart.context";
-import { RestaurantsContextProvider } from "../../services/restaurants/restaurants.context";
-import { LocationContextProvider } from "../../services/location/location.context";
-import { FavouritesContextProvider } from "../../services/favourites/favourites.context";
-import { colors } from "../../infrastructure/theme/colors";
+import { FavouritesContext } from "../../../services/favourites/favourites.context";
 
-const Tab = createBottomTabNavigator();
+import { SafeArea } from "../../../components/utility/safe-area.component";
+import { Text } from "../../../components/typography/text.component";
+import { Spacer } from "../../../components/spacer/spacer.component";
 
-const TAB_ICON = {
-  Restaurants: "md-restaurant",
-  Map: "md-map",
-  Checkout: "md-cart",
-  Settings: "md-settings",
+import { RestaurantList } from "../../restaurants/components/restaurant-list.styles";
+import { RestaurantInfoCard } from "../../restaurants/components/restaurant-info-card.component";
+
+const NoFavouritesArea = styled(SafeArea)`
+  align-items: center;
+  justify-content: center;
+`;
+export const FavouritesScreen = ({ navigation }) => {
+  const { favourites } = useContext(FavouritesContext);
+
+  return favourites.length ? (
+    <SafeArea>
+      <RestaurantList
+        data={favourites}
+        renderItem={({ item }) => {
+          return (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("RestaurantDetail", {
+                  restaurant: item,
+                })
+              }
+            >
+              <Spacer position="bottom" size="large">
+                <RestaurantInfoCard restaurant={item} />
+              </Spacer>
+            </TouchableOpacity>
+          );
+        }}
+        keyExtractor={(item) => item.name}
+      />
+    </SafeArea>
+  ) : (
+    <NoFavouritesArea>
+      <Text center>No favourites yet</Text>
+    </NoFavouritesArea>
+  );
 };
-
-const createScreenOptions = ({ route }) => {
-  const iconName = TAB_ICON[route.name];
-  return {
-    tabBarIcon: ({ size, color }) => (
-      <Ionicons name={iconName} size={size} color={color} />
-    ),
-  };
-};
-
-export const AppNavigator = () => (
-  <FavouritesContextProvider>
-    <LocationContextProvider>
-      <RestaurantsContextProvider>
-        <CartContextProvider>
-          <Tab.Navigator
-            screenOptions={createScreenOptions}
-            tabBarOptions={{
-              activeTintColor: colors.brand.primary,
-              inactiveTintColor: colors.brand.muted,
-            }}
-          >
-            <Tab.Screen name="Restaurants" component={RestaurantsNavigator} />
-            <Tab.Screen name="Checkout" component={CheckoutNavigator} />
-            <Tab.Screen name="Map" component={MapScreen} />
-            <Tab.Screen name="Settings" component={SettingsNavigator} />
-          </Tab.Navigator>
-        </CartContextProvider>
-      </RestaurantsContextProvider>
-    </LocationContextProvider>
-  </FavouritesContextProvider>
-);
