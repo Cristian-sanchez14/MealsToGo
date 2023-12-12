@@ -18,21 +18,20 @@ const TAB_ICON = {
   Settings: "md-settings",
 };
 
-const createScreenOptions = ({ route }) => {
-  const iconName = TAB_ICON[route.name];
-  return {
-    tabBarIcon: ({ size, color }) => (
-      <Ionicons name={iconName} size={size} color={color} />
-    ),
-  };
-};
-
 export const AppNavigator = () => (
   <FavouritesContextProvider>
     <LocationContextProvider>
       <RestaurantsContextProvider>
         <Tab.Navigator
-          screenOptions={createScreenOptions}
+          screenOptions={({ route }) => {
+            const iconName = TAB_ICON[route.name];
+            return {
+              tabBarIcon: ({ size, color }) => (
+                <Ionicons name={iconName} size={size} color={color} />
+              ),
+              headerShown: false,
+            };
+          }}
           tabBarOptions={{
             activeTintColor: "tomato",
             inactiveTintColor: "gray",

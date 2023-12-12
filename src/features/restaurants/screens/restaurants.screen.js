@@ -52,7 +52,7 @@ export const RestaurantsScreen = ({ navigation }) => {
       )}
       {hasError && (
         <Spacer position="left" size="large">
-          <Text variant="error">Something went wrong retrieving the data</Text>
+          <Text variant="error">Something went wrong retrieving the data. Note cd into "Functions" file and npm run serve</Text>
         </Spacer>
       )}
       {!hasError && (
