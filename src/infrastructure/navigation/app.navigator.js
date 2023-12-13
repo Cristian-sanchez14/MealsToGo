@@ -11,6 +11,7 @@ import { CartContextProvider } from "../../services/cart/cart.context";
 import { RestaurantsContextProvider } from "../../services/restaurants/restaurants.context";
 import { LocationContextProvider } from "../../services/location/location.context";
 import { FavouritesContextProvider } from "../../services/favourites/favourites.context";
+import { colors } from "../../infrastructure/theme/colors";
 
 const Tab = createBottomTabNavigator();
 
@@ -21,25 +22,24 @@ const TAB_ICON = {
   Settings: "md-settings",
 };
 
-const createScreenOptions = ({ route }) => {
-  const iconName = TAB_ICON[route.name];
-  return {
-    tabBarIcon: ({ size, color }) => (
-      <Ionicons name={iconName} size={size} color={color} />
-    ),
-  };
-};
-
 export const AppNavigator = () => (
   <FavouritesContextProvider>
     <LocationContextProvider>
       <RestaurantsContextProvider>
         <CartContextProvider>
           <Tab.Navigator
-            screenOptions={createScreenOptions}
+            screenOptions={({ route }) => {
+              const iconName = TAB_ICON[route.name];
+              return {
+                tabBarIcon: ({ size, color }) => (
+                  <Ionicons name={iconName} size={size} color={color} />
+                ),
+                headerShown: false,
+              };
+            }}
             tabBarOptions={{
-              activeTintColor: "tomato",
-              inactiveTintColor: "gray",
+              activeTintColor: colors.brand.primary,
+              inactiveTintColor: colors.brand.muted,
             }}
           >
             <Tab.Screen name="Restaurants" component={RestaurantsNavigator} />
